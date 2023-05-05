@@ -1,0 +1,88 @@
+body {
+  text-align: center;
+}
+
+header {
+  background: white;
+  margin: 0;
+  text-align: left;
+}
+
+header img {
+  height: 40px;
+  display: inline-block;
+}
+
+header h1 {
+  margin-bottom: 0;
+  display: inline-block;
+  font-size: 10px;
+}
+
+.input-group {
+  width: 300px;
+  margin-bottom: 40px;
+  margin-left: 170px;
+  transform: scale(0.5);
+}
+
+.input-group button {
+  background-color: black;
+}
+
+.main-weather {
+  background-image: url(../images/Screenshot\ 2023-05-03\ at\ 23.37.17.png);
+  background-size: cover;
+  background-color: gray;
+  background-blend-mode: color-burn;
+  height: 400px;
+  color: azure;
+}
+
+main {
+  background-color: rgb(0, 48, 107);
+}
+
+.text h2 {
+  padding-top: 200px;
+}
+
+.text h3 {
+  font-size: 50px;
+}
+
+.micro {
+  font-size: 9px;
+}
+.menu {
+  margin-top: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+  border-radius: 15px;
+  background-color: rgba(26, 62, 105, 0.5);
+}
+
+.forecast {
+  text-align: left;
+  margin-left: 5px;
+}
+
+.forecast h2 {
+  border-bottom: 1px solid rgba(223, 213, 213, 0.4);
+  font-size: 1em;
+  color: rgba(223, 213, 213, 0.4);
+  text-align: left;
+}
+
+.col h3 {
+  font-size: 0.6em;
+  color: white;
+}
+
+footer {
+  padding-top: 40px;
+}
+
+footer p {
+  margin: 0;
+}

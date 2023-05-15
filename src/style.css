@@ -54,6 +54,20 @@ main {
 .micro {
   font-size: 9px;
 }
+
+.units {
+  font-size: 15px;
+}
+
+.units a {
+  text-decoration: none;
+  color: white;
+}
+
+#temp {
+  display: inline-block;
+}
+
 .menu {
   margin-top: 20px;
   margin-right: 20px;

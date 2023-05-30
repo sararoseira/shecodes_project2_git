@@ -47,6 +47,13 @@
 let form = document.querySelector(".input-group");
 let inputCity = document.querySelector("#city");
 
+const displayTemp = function (response) {
+  let temperature = document.querySelector("#temp");
+  const currentTemperature = Math.round(response.data.main.temp);
+  temperature.innerHTML = currentTemperature;
+  console.log(temperature);
+};
+
 const submitFunc = function (event) {
   event.preventDefault();
   let search = document.querySelector(".form-control");
@@ -59,14 +66,7 @@ const submitFunc = function (event) {
 };
 form.addEventListener("submit", submitFunc);
 
-const displayTemp = function (response) {
-  let temperature = document.querySelector("#temp");
-  const currentTemperature = Math.round(response.data.main.temp);
-  temperature.innerHTML = currentTemperature;
-  console.log(temperature);
-};
-
-// current temperature button
+// current temperature button (geolocation data)
 
 let currentBtn = document.querySelector("#current");
 

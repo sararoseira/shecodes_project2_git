@@ -10,6 +10,7 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
     <link rel="stylesheet" href="src/style.css" />
     <title>Weather App</title>
   </head>
@@ -26,7 +27,7 @@
       <main>
         <div class="main-weather">
           <div class="text">
-            <h2>Matosinhos</h2>
+            <h2 id="city">Lagos</h2>
             <h3 id="temp">16</h3>
             <span class="units">
               <a href="#" id="celsius">°C</a>
@@ -43,9 +44,18 @@
 
         <section class="menu">
           <form class="input-group">
-            <span class="input-group-text">City Name</span>
-            <input type="text" aria-label="First name" class="form-control" />
-            <button type="submit" class="btn btn-primary">Enter</button>
+            <input
+              type="text"
+              aria-label="First name"
+              class="form-control"
+              placeholder="Search city..."
+            />
+            <button type="submit" class="btn btn-primary" id="enter">
+              Enter
+            </button>
+            <button class="btn btn-primary" type="button" id="current">
+              Current
+            </button>
           </form>
 
           <div class="forecast">

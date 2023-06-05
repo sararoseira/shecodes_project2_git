@@ -45,7 +45,7 @@ header h1 {
 }
 
 .main-weather {
-  background-image: url(../images/Screenshot\ 2023-05-03\ at\ 23.37.17.png);
+  background-image: url(../images/rainy.png);
   background-size: cover;
   background-color: gray;
   background-blend-mode: color-burn;
@@ -69,17 +69,25 @@ main {
   font-size: 9px;
 }
 
-.units {
+.temp-unit {
   font-size: 15px;
+  display: flex;
+  justify-content: center;
 }
 
-.units a {
+.temp-unit a {
   text-decoration: none;
   color: white;
+  display: inline-block;
+}
+
+.unit {
+  position: relative;
+  top: 10px;
 }
 
 #temp {
-  display: inline-block;
+  display: inline;
 }
 
 .menu {

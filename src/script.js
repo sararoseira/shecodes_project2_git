@@ -46,12 +46,37 @@
 
 let form = document.querySelector(".input-group");
 let inputCity = document.querySelector("#city");
+let lyrics = document.querySelector(".lyrics");
+let backgroundImg = document.querySelector(".main-weather");
+let weatherDescript;
 
 const displayTemp = function (response) {
   let temperature = document.querySelector("#temp");
   const currentTemperature = Math.round(response.data.main.temp);
   temperature.innerHTML = currentTemperature;
   console.log(temperature);
+  weatherDescript = response.data.weather[0].description;
+  console.log(weatherDescript);
+
+  if (weatherDescript.includes("cloud")) {
+    lyrics.innerHTML = "I look at clouds from both sides now";
+    backgroundImg.style.backgroundImage = "url(../images/cloudy.jpg)";
+    backgroundImg.style.backgroundBlendMode = "multiply";
+  } else if (
+    weatherDescript.includes("sun") ||
+    weatherDescript.includes("clear")
+  ) {
+    lyrics.innerHTML = "Here comes the sun (doo doo doo)";
+    backgroundImg.style.backgroundImage = "url(../images/sunny.png)";
+    backgroundImg.style.backgroundBlendMode = "multiply";
+  } else if (weatherDescript.includes("rain")) {
+    lyrics.innerHTML = "I'm only happy when it rains";
+    backgroundImg.style.backgroundImage = "url(../images/rainy.png)";
+    backgroundImg.style.backgroundBlendMode = "color-burn";
+  } else {
+    backgroundImg.style.backgroundImage = "url(../images/rainy.png)";
+    backgroundImg.style.backgroundBlendMode = "color-burn";
+  }
 };
 
 const submitFunc = function (event) {
@@ -90,3 +115,5 @@ currentBtn.addEventListener("click", function () {
 
   navigator.geolocation.getCurrentPosition(showPosition);
 });
+
+// get and store the weather description

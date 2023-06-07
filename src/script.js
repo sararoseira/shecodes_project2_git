@@ -42,22 +42,16 @@
 
 // celciusTemp.addEventListener("click", changingTemp2);
 
-// displaying the city input and the temperature based on that city (data from api)
-
 let form = document.querySelector(".input-group");
 let inputCity = document.querySelector("#city");
 let lyrics = document.querySelector(".lyrics");
 let backgroundImg = document.querySelector(".main-weather");
 let weatherDescript;
 
-const displayTemp = function (response) {
-  let temperature = document.querySelector("#temp");
-  const currentTemperature = Math.round(response.data.main.temp);
-  temperature.innerHTML = currentTemperature;
-  console.log(temperature);
-  weatherDescript = response.data.weather[0].description;
-  console.log(weatherDescript);
+// changing the image and "lyrics" according to the weather description (api data)
 
+const weatherImg = function (response) {
+  weatherDescript = response.data.weather[0].description;
   if (weatherDescript.includes("cloud")) {
     lyrics.innerHTML = "I look at clouds from both sides now";
     backgroundImg.style.backgroundImage = "url(../images/cloudy.jpg)";
@@ -79,6 +73,17 @@ const displayTemp = function (response) {
   }
 };
 
+// displaying the city input and the temperature based on that city (data from api)
+
+const displayTemp = function (response) {
+  let temperature = document.querySelector("#temp");
+  const currentTemperature = Math.round(response.data.main.temp);
+  temperature.innerHTML = currentTemperature;
+  console.log(temperature);
+  weatherDescript = response.data.weather[0].description;
+  console.log(weatherDescript);
+};
+
 const submitFunc = function (event) {
   event.preventDefault();
   let search = document.querySelector(".form-control");
@@ -88,6 +93,7 @@ const submitFunc = function (event) {
   let apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
   axios.get(apiURL).then(displayTemp);
+  axios.get(apiURL).then(weatherImg);
 };
 form.addEventListener("submit", submitFunc);
 

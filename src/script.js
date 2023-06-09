@@ -47,18 +47,55 @@ let inputCity = document.querySelector("#city");
 let lyrics = document.querySelector(".lyrics");
 let backgroundImg = document.querySelector(".main-weather");
 let weatherDescript;
+let date;
+
+// formatting the date
+// const formatDate = function (timestamp) {
+//   let date = new Date(timestamp);
+//   let hours = date.getHours();
+//   let minutes = date.getMinutes();
+//   let day = date.getDate();
+//   console.log(date, hours, minutes, day);
+// };
+
+// getting the weekdays from the data
+
+const getWeekDays = function (response) {
+  let timeStamp = response.data.dt * 1000;
+  let data = new Date(timeStamp);
+
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  let dayOfWeek = days[data.getDay()];
+  console.log(dayOfWeek);
+};
 
 // changing the image and "lyrics" according to the weather description (api data)
 
 const weatherImg = function (response) {
   weatherDescript = response.data.weather[0].description;
+  console.log(response.data.dt * 1000);
+  console.log(response);
+  date = new Date(response.data.dt * 1000);
+  console.log(date);
+  let hours = date.getHours();
+  console.log(hours);
+
   if (weatherDescript.includes("cloud")) {
     lyrics.innerHTML = "I look at clouds from both sides now";
     backgroundImg.style.backgroundImage = "url(../images/cloudy.jpg)";
     backgroundImg.style.backgroundBlendMode = "multiply";
   } else if (
     weatherDescript.includes("sun") ||
-    weatherDescript.includes("clear")
+    (weatherDescript.includes("clear") && 7 < hours < 20)
   ) {
     lyrics.innerHTML = "Here comes the sun (doo doo doo)";
     backgroundImg.style.backgroundImage = "url(../images/sunny.png)";
@@ -67,6 +104,9 @@ const weatherImg = function (response) {
     lyrics.innerHTML = "I'm only happy when it rains";
     backgroundImg.style.backgroundImage = "url(../images/rainy.png)";
     backgroundImg.style.backgroundBlendMode = "color-burn";
+  } else if (weatherDescript.includes("clear") && hours > 20) {
+    lyrics.innerHTML = "Look at the skies, they have stars in their eyes";
+    backgroundImg.style.backgroundImage = "url(../images/clear_night.png)";
   } else {
     backgroundImg.style.backgroundImage = "url(../images/rainy.png)";
     backgroundImg.style.backgroundBlendMode = "color-burn";
@@ -94,6 +134,7 @@ const submitFunc = function (event) {
 
   axios.get(apiURL).then(displayTemp);
   axios.get(apiURL).then(weatherImg);
+  axios.get(apiURL).then(getWeekDays);
 };
 form.addEventListener("submit", submitFunc);
 

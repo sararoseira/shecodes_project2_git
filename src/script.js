@@ -1,62 +1,13 @@
 "use strict";
-
-// displaying the current date
-
-// let date = document.querySelector(".text h2");
-
-// let baseDate = new Date();
-// let realWeekDay = baseDate.getDay();
-// let realTimeH = baseDate.getHours();
-// if (realTimeH < 10) {
-//   realTimeH = `0${realTimeH}`;
-// }
-// let realTimeM = baseDate.getMinutes();
-// let weekDays = [
-//   "Sunday",
-//   "Monday",
-//   "Tuesday",
-//   "Wednesday",
-//   "Thursday",
-//   "Friday",
-//   "Saturday",
-// ];
-
-// realWeekDay = weekDays[baseDate.getDay()];
-// date.innerHTML = `${realWeekDay}, ${realTimeH}:${realTimeM}`;
-
-// adding a celsius/fahrenheit option NEEDS UPDATE!!!!
-
-// let temperature = document.querySelector("#temp");
-// let celciusTemp = document.querySelector("#celsius");
-// let fahrTemp = document.querySelector("#fahrenheit");
-
-// const changingTemp = function () {
-//   temperature.innerHTML = "61";
-// };
-
-// fahrTemp.addEventListener("click", changingTemp);
-
-// const changingTemp2 = function () {
-//   displayTEMP();
-// };
-
-// celciusTemp.addEventListener("click", changingTemp2);
+// Global variables
 
 let form = document.querySelector(".input-group");
 let inputCity = document.querySelector("#city");
 let lyrics = document.querySelector(".lyrics");
 let backgroundImg = document.querySelector(".main-weather");
+let temperature = document.querySelector("#temp");
 let weatherDescript;
 let date;
-
-// formatting the date
-// const formatDate = function (timestamp) {
-//   let date = new Date(timestamp);
-//   let hours = date.getHours();
-//   let minutes = date.getMinutes();
-//   let day = date.getDate();
-//   console.log(date, hours, minutes, day);
-// };
 
 // getting the weekdays from the data
 
@@ -116,7 +67,6 @@ const weatherImg = function (response) {
 // displaying the city input and the temperature based on that city (data from api)
 
 const displayTemp = function (response) {
-  let temperature = document.querySelector("#temp");
   const currentTemperature = Math.round(response.data.main.temp);
   temperature.innerHTML = currentTemperature;
   console.log(temperature);
@@ -163,4 +113,28 @@ currentBtn.addEventListener("click", function () {
   navigator.geolocation.getCurrentPosition(showPosition);
 });
 
-// get and store the weather description
+// converting temp into fahrenheit
+let tempC = document.querySelector("#celsius");
+
+const cenas = function (event) {
+  event.preventDefault();
+  let search = document.querySelector(".form-control");
+  inputCity.innerHTML = search.value.toLowerCase();
+  let city = search.value;
+  let apiKey = "aca4dd3643b89e94dbd3cac6cf6f2638";
+  let apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+  axios.get(apiURL).then(displayTemp);
+};
+
+tempC.addEventListener("click", cenas);
+
+let tempF = document.querySelector("#fahrenheit");
+
+const cenas2 = function () {
+  const currenTemp = Number(temperature.innerHTML);
+  temperature.innerHTML = Math.round(currenTemp * 1.8 + 32);
+  // (temperature.innerHTML - 32) * 0.5556;
+};
+
+tempF.addEventListener("click", cenas2);

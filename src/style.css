@@ -36,6 +36,10 @@ header h1 {
   background-color: black;
 }
 
+#enter {
+  margin-left: 20px;
+}
+
 #current {
   background-color: rgb(187, 187, 76);
 }

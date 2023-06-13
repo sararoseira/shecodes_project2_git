@@ -12,7 +12,7 @@
     />
     <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
     <link rel="stylesheet" href="src/style.css" />
-    <title>Weather App</title>
+    <title>Weather App SR</title>
   </head>
   <body>
     <div class="container">
@@ -68,27 +68,19 @@
 
           <div class="forecast">
             <h2><span>🗒️ </span>5-Day Forecast</h2>
-            <div class="row">
-              <div class="col">
-                <h3>Today</h3>
-                <h3>Thursday</h3>
-                <h3>Friday</h3>
-                <h3>Saturday</h3>
-                <h3>Sunday</h3>
-              </div>
-              <div class="col">
-                <h3>☀️</h3>
-                <h3>☀️</h3>
-                <h3>☀️</h3>
-                <h3>☀️</h3>
-                <h3>☀️</h3>
-              </div>
-              <div class="col">
-                <h3>High 22°-Low 16°</h3>
-                <h3>High 22°-Low 16°</h3>
-                <h3>High 22°-Low 16°</h3>
-                <h3>High 22°-Low 16°</h3>
-                <h3>High 22°-Low 16°</h3>
+            <div class="container text-center">
+              <div class="row align-items-start">
+                <div class="col" id="forecast-days">Today</div>
+                <div class="col" id="icons">
+                  <img
+                    src="http://openweathermap.org/img/wn/50d@2x.png"
+                    alt=""
+                  />
+                </div>
+                <div class="col" id="min-max">
+                  <span class="min-temp">Low 12°</span
+                  ><span class="max-temp">-High 16°</span>
+                </div>
               </div>
             </div>
           </div>

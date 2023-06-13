@@ -118,6 +118,11 @@ main {
   text-align: left;
 }
 
+.forecast #icons img {
+  width: 15px;
+  background-color: white;
+}
+
 .col h3 {
   font-size: 0.6em;
   color: white;

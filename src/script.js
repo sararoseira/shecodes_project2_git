@@ -85,6 +85,7 @@ const submitFunc = function (event) {
   axios.get(apiURL).then(displayTemp);
   axios.get(apiURL).then(weatherImg);
   axios.get(apiURL).then(getWeekDays);
+  axios.get(apiURL).then(getWindSpeed);
 };
 form.addEventListener("submit", submitFunc);
 
@@ -113,7 +114,7 @@ currentBtn.addEventListener("click", function () {
   navigator.geolocation.getCurrentPosition(showPosition);
 });
 
-// converting temp into fahrenheit
+// converting temp into fahrenheit/celsius
 let tempC = document.querySelector("#celsius");
 let tempF = document.querySelector("#fahrenheit");
 
@@ -138,3 +139,11 @@ const convertC = function () {
 };
 
 tempC.addEventListener("click", convertC);
+
+// displaying the wind speed (optional)
+let windSpeed = document.querySelector(".wind-speed");
+
+const getWindSpeed = function (response) {
+  const windSpeedR = Math.round(response.data.wind.speed);
+  windSpeed.innerHTML = `Wind speed: ${windSpeedR} km/h`;
+};

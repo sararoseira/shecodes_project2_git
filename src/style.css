@@ -94,6 +94,10 @@ main {
   display: inline;
 }
 
+.wind-speed {
+  font-size: 5px;
+}
+
 .menu {
   margin-top: 20px;
   margin-right: 20px;

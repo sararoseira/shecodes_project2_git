@@ -93,7 +93,7 @@ const submitFunc = function (event) {
 };
 form.addEventListener("submit", submitFunc);
 
-// Current temperature
+// Default values (= geolocation)
 
 let currentBtn = document.querySelector("#current");
 
@@ -109,9 +109,12 @@ const showPosition = function (position) {
   let longitude = position.coords.longitude;
   let apiUrlGeo = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
   let apiReverseGeo = `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+  let apiForecast = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
+  axios.get(apiUrlGeo).then(weatherImg);
   axios.get(apiUrlGeo).then(displayCityGeo);
   axios.get(apiUrlGeo).then(displayTemp);
+  axios.get(apiForecast).then(displayForecastF);
 };
 
 navigator.geolocation.getCurrentPosition(showPosition);
@@ -150,7 +153,7 @@ const getWindSpeed = function (response) {
   windSpeed.innerHTML = `Wind speed: ${windSpeedR} km/h`;
 };
 
-// displaying the forecast
+// displaying the forecast (for a searched city)
 let forecastElement = document.querySelector(".forecast");
 
 let forecastHTML = "";

@@ -9,12 +9,14 @@ let temperature = document.querySelector("#temp");
 let weatherDescript;
 let date;
 
+// default values
+
 // getting the weekdays from the data
 
 const getWeekDays = function (response) {
   let timeStamp = response.dt * 1000;
   let data = new Date(timeStamp);
-  console.log(data);
+  console.log(data.getDay());
 
   let days = [
     "Sunday",
@@ -91,7 +93,7 @@ const submitFunc = function (event) {
 };
 form.addEventListener("submit", submitFunc);
 
-// current temperature button (geolocation data)
+// Current temperature
 
 let currentBtn = document.querySelector("#current");
 
@@ -101,20 +103,18 @@ const displayCityGeo = function (response) {
   city.innerHTML = response.data.name.replace(" Municipality", "");
 };
 
-currentBtn.addEventListener("click", function () {
-  const showPosition = function (position) {
-    let apiKey = "aca4dd3643b89e94dbd3cac6cf6f2638";
-    let latitude = position.coords.latitude;
-    let longitude = position.coords.longitude;
-    let apiUrlGeo = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
-    let apiReverseGeo = `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+const showPosition = function (position) {
+  let apiKey = "aca4dd3643b89e94dbd3cac6cf6f2638";
+  let latitude = position.coords.latitude;
+  let longitude = position.coords.longitude;
+  let apiUrlGeo = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+  let apiReverseGeo = `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
 
-    axios.get(apiUrlGeo).then(displayCityGeo);
-    axios.get(apiUrlGeo).then(displayTemp);
-  };
+  axios.get(apiUrlGeo).then(displayCityGeo);
+  axios.get(apiUrlGeo).then(displayTemp);
+};
 
-  navigator.geolocation.getCurrentPosition(showPosition);
-});
+navigator.geolocation.getCurrentPosition(showPosition);
 
 // converting temp into fahrenheit/celsius
 let tempC = document.querySelector("#celsius");
@@ -150,7 +150,7 @@ const getWindSpeed = function (response) {
   windSpeed.innerHTML = `Wind speed: ${windSpeedR} km/h`;
 };
 
-// displaying the forecast (fake data)
+// displaying the forecast
 let forecastElement = document.querySelector(".forecast");
 
 let forecastHTML = "";

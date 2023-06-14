@@ -147,3 +147,32 @@ const getWindSpeed = function (response) {
   const windSpeedR = Math.round(response.data.wind.speed);
   windSpeed.innerHTML = `Wind speed: ${windSpeedR} km/h`;
 };
+
+// forecast (fake data)
+let forecastElement = document.querySelector(".forecast");
+
+let forecastHTML = "";
+let forecastDays = ["Tomorrow", "Monday", "Tuesday", "Wednesday", "Thursday"];
+
+const displayForecast = function (forecastDays) {
+  forecastHTML += `
+            <div class="container text-center">
+              <div class="row align-items-start">
+                <div class="col" id="forecast-days">${forecastDays}</div>
+                <div class="col" id="icons">
+                  <img
+                    src="http://openweathermap.org/img/wn/50d@2x.png"
+                    alt=""
+                  />
+                </div>
+                <div class="col" id="min-max">
+                  <span class="min-temp">Low 12°</span
+                  ><span class="max-temp">-High 16°</span>
+                </div>
+              </div>
+            </div>`;
+};
+
+forecastDays.forEach(displayForecast);
+
+forecastElement.innerHTML = forecastHTML;

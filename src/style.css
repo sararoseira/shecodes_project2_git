@@ -106,12 +106,12 @@ main {
   background-color: rgba(26, 62, 105, 0.5);
 }
 
-.forecast {
+.forecast-col {
   text-align: left;
   margin-left: 5px;
 }
 
-.forecast h2 {
+.forecast-col h2 {
   border-bottom: 1px solid rgba(223, 213, 213, 0.4);
   font-size: 1em;
   color: rgba(223, 213, 213, 0.4);

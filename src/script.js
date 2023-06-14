@@ -12,8 +12,9 @@ let date;
 // getting the weekdays from the data
 
 const getWeekDays = function (response) {
-  let timeStamp = response.data.dt * 1000;
+  let timeStamp = response.dt * 1000;
   let data = new Date(timeStamp);
+  console.log(data);
 
   let days = [
     "Sunday",
@@ -26,7 +27,7 @@ const getWeekDays = function (response) {
   ];
 
   let dayOfWeek = days[data.getDay()];
-  console.log(dayOfWeek);
+  return dayOfWeek;
 };
 
 // changing the image and "lyrics" according to the weather description (api data)
@@ -86,6 +87,7 @@ const submitFunc = function (event) {
   axios.get(apiURL).then(weatherImg);
   axios.get(apiURL).then(getWeekDays);
   axios.get(apiURL).then(getWindSpeed);
+  axios.get(apiURL).then(displayForecastR);
 };
 form.addEventListener("submit", submitFunc);
 
@@ -140,7 +142,7 @@ const convertC = function () {
 
 tempC.addEventListener("click", convertC);
 
-// displaying the wind speed (optional)
+// displaying the wind speed (optional -to remove later)
 let windSpeed = document.querySelector(".wind-speed");
 
 const getWindSpeed = function (response) {
@@ -148,31 +150,48 @@ const getWindSpeed = function (response) {
   windSpeed.innerHTML = `Wind speed: ${windSpeedR} km/h`;
 };
 
-// forecast (fake data)
+// displaying the forecast (fake data)
 let forecastElement = document.querySelector(".forecast");
 
 let forecastHTML = "";
-let forecastDays = ["Tomorrow", "Monday", "Tuesday", "Wednesday", "Thursday"];
+let forecastDays = "";
 
-const displayForecast = function (forecastDays) {
-  forecastHTML += `
+const displayForecastF = function (response) {
+  forecastDays = response.data.daily;
+  console.log(forecastDays);
+
+  forecastDays.forEach(function (Day, index) {
+    if (index < 6) {
+      forecastHTML += `
             <div class="container text-center">
               <div class="row align-items-start">
-                <div class="col" id="forecast-days">${forecastDays}</div>
+                <div class="col" id="forecast-days">${getWeekDays(Day)}</div>
                 <div class="col" id="icons">
                   <img
-                    src="http://openweathermap.org/img/wn/50d@2x.png"
+                    src="http://openweathermap.org/img/wn/${
+                      Day.weather[0].icon
+                    }@2x.png"
                     alt=""
                   />
                 </div>
                 <div class="col" id="min-max">
-                  <span class="min-temp">Low 12°</span
-                  ><span class="max-temp">-High 16°</span>
+                  <span class="min-temp">Low ${Math.round(Day.temp.min)}°</span
+                  ><span class="max-temp">-High ${Math.round(
+                    Day.temp.max
+                  )}°</span>
                 </div>
               </div>
             </div>`;
+    }
+  });
+  forecastElement.innerHTML = forecastHTML;
 };
 
-forecastDays.forEach(displayForecast);
+const displayForecastR = function (response) {
+  let latitude = response.data.coord.lat;
+  let longitude = response.data.coord.lon;
+  let apiKey = "281450ec88936f4fa8ee9864682b49a0";
+  let apiForecast = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
-forecastElement.innerHTML = forecastHTML;
+  axios.get(apiForecast).then(displayForecastF);
+};

@@ -7,7 +7,9 @@ let lyrics = document.querySelector(".lyrics");
 let backgroundImg = document.querySelector(".main-weather");
 let temperature = document.querySelector("#temp");
 let weatherDescript;
+let searchCity = document.querySelector("#search-city");
 let date;
+let audio;
 
 // default values
 
@@ -16,7 +18,6 @@ let date;
 const getWeekDays = function (response) {
   let timeStamp = response.dt * 1000;
   let data = new Date(timeStamp);
-  console.log(data.getDay());
 
   let days = [
     "Sunday",
@@ -44,23 +45,44 @@ const weatherImg = function (response) {
   console.log(hours);
 
   if (weatherDescript.includes("cloud")) {
-    lyrics.innerHTML = "I look at clouds from both sides now";
+    lyrics.innerHTML =
+      " So many things I would have done, but clouds got in my way";
     backgroundImg.style.backgroundImage = "url(../images/cloudy.jpg)";
     backgroundImg.style.backgroundBlendMode = "multiply";
+    if (audio) {
+      audio.pause();
+    }
+    audio = new Audio("../audio/both_ways.mp3");
+    audio.play();
   } else if (
     weatherDescript.includes("sun") ||
     (weatherDescript.includes("clear") && 7 < hours < 20)
   ) {
-    lyrics.innerHTML = "Here comes the sun (doo doo doo)";
+    lyrics.innerHTML = " Here comes the sun (doo doo doo)";
     backgroundImg.style.backgroundImage = "url(../images/sunny.png)";
     backgroundImg.style.backgroundBlendMode = "multiply";
+    if (audio) {
+      audio.pause();
+    }
+    audio = new Audio("../audio/here_comes_the_sun.mp3");
+    audio.play();
   } else if (weatherDescript.includes("rain")) {
-    lyrics.innerHTML = "I'm only happy when it rains";
+    lyrics.innerHTML = " I'm only happy when it rains";
     backgroundImg.style.backgroundImage = "url(../images/rainy.png)";
     backgroundImg.style.backgroundBlendMode = "color-burn";
+    if (audio) {
+      audio.pause();
+    }
+    audio = new Audio("../audio/when_it_rains.mp3");
+    audio.play();
   } else if (weatherDescript.includes("clear") && hours > 20) {
-    lyrics.innerHTML = "Look at the skies, they have stars in their eyes";
+    lyrics.innerHTML = " Look at the skies, they have stars in their eyes";
     backgroundImg.style.backgroundImage = "url(../images/clear_night.png)";
+    if (audio) {
+      audio.pause();
+    }
+    audio = new Audio("../audio/bella_notte.mp3");
+    audio.play();
   } else {
     backgroundImg.style.backgroundImage = "url(../images/rainy.png)";
     backgroundImg.style.backgroundBlendMode = "color-burn";
@@ -77,47 +99,55 @@ const displayTemp = function (response) {
   console.log(weatherDescript);
 };
 
-const submitFunc = function (event) {
+const submitFunc = async function (event) {
   event.preventDefault();
   let search = document.querySelector(".form-control");
-  inputCity.innerHTML = search.value.toLowerCase();
   let city = search.value;
+  console.log(city);
   let apiKey = "aca4dd3643b89e94dbd3cac6cf6f2638";
   let apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
-  axios.get(apiURL).then(displayTemp);
-  axios.get(apiURL).then(weatherImg);
-  axios.get(apiURL).then(getWeekDays);
-  axios.get(apiURL).then(getWindSpeed);
-  axios.get(apiURL).then(displayForecastR);
+  try {
+    let axiosResponse = await axios.get(apiURL);
+    inputCity.innerHTML = search.value.toLowerCase();
+
+    console.log(axiosResponse);
+    displayTemp(axiosResponse);
+    weatherImg(axiosResponse);
+    getWeekDays(axiosResponse);
+    getWindSpeed(axiosResponse);
+    displayForecastR(axiosResponse);
+  } catch (err) {}
 };
 form.addEventListener("submit", submitFunc);
 
 // Default values (= geolocation)
 
-let currentBtn = document.querySelector("#current");
+if (searchCity.value.length == 0) {
+  console.log(searchCity.value.length);
+  const displayCityGeo = function (response) {
+    console.log(response.data);
+    let city = document.querySelector("#city");
+    city.innerHTML = response.data.name.replace(" Municipality", "");
+  };
 
-const displayCityGeo = function (response) {
-  console.log(response.data);
-  let city = document.querySelector("#city");
-  city.innerHTML = response.data.name.replace(" Municipality", "");
-};
+  const showPosition = function (position) {
+    let apiKey = "aca4dd3643b89e94dbd3cac6cf6f2638";
+    let latitude = position.coords.latitude;
+    let longitude = position.coords.longitude;
+    let apiUrlGeo = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+    let apiReverseGeo = `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+    let apiForecast = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
-const showPosition = function (position) {
-  let apiKey = "aca4dd3643b89e94dbd3cac6cf6f2638";
-  let latitude = position.coords.latitude;
-  let longitude = position.coords.longitude;
-  let apiUrlGeo = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
-  let apiReverseGeo = `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
-  let apiForecast = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+    axios.get(apiUrlGeo).then(weatherImg);
+    axios.get(apiUrlGeo).then(displayCityGeo);
+    axios.get(apiUrlGeo).then(displayTemp);
+    axios.get(apiUrlGeo).then(getWindSpeed);
+    axios.get(apiForecast).then(displayForecastF);
+  };
 
-  axios.get(apiUrlGeo).then(weatherImg);
-  axios.get(apiUrlGeo).then(displayCityGeo);
-  axios.get(apiUrlGeo).then(displayTemp);
-  axios.get(apiForecast).then(displayForecastF);
-};
-
-navigator.geolocation.getCurrentPosition(showPosition);
+  navigator.geolocation.getCurrentPosition(showPosition);
+}
 
 // converting temp into fahrenheit/celsius
 let tempC = document.querySelector("#celsius");
@@ -156,10 +186,11 @@ const getWindSpeed = function (response) {
 // displaying the forecast (for a searched city)
 let forecastElement = document.querySelector(".forecast");
 
-let forecastHTML = "";
 let forecastDays = "";
+let forecastHTML;
 
 const displayForecastF = function (response) {
+  forecastHTML = "";
   forecastDays = response.data.daily;
   console.log(forecastDays);
 
@@ -178,8 +209,8 @@ const displayForecastF = function (response) {
                   />
                 </div>
                 <div class="col" id="min-max">
-                  <span class="min-temp">Low ${Math.round(Day.temp.min)}°</span
-                  ><span class="max-temp">-High ${Math.round(
+                  <span class="min-temp">Low ${Math.round(Day.temp.min)}° </span
+                  ><span class="max-temp">/ High ${Math.round(
                     Day.temp.max
                   )}°</span>
                 </div>

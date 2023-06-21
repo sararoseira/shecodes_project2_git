@@ -69,8 +69,17 @@ main {
   font-size: 50px;
 }
 
+#city {
+  font-size: 1.1em;
+}
+
 .micro {
   font-size: 9px;
+}
+
+.lyrics {
+  font-size: 0.6em;
+  font-style: italic;
 }
 
 .temp-unit {
@@ -95,7 +104,7 @@ main {
 }
 
 .wind-speed {
-  font-size: 5px;
+  font-size: 3px;
 }
 
 .menu {
@@ -113,14 +122,36 @@ main {
 
 .forecast-col h2 {
   border-bottom: 1px solid rgba(223, 213, 213, 0.4);
-  font-size: 1em;
+  font-size: 0.8em;
   color: rgba(223, 213, 213, 0.4);
   text-align: left;
+  padding-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.forecast {
+  color: white;
 }
 
 .forecast #icons img {
-  width: 15px;
-  background-color: white;
+  width: 30px;
+}
+
+#forecast-days {
+  text-align: left;
+}
+
+#min-max {
+  text-align: right;
+}
+
+.min-temp {
+  font-weight: lighter;
+}
+
+.high-low-pic {
+  width: 20px;
+  background-color: rgba(26, 62, 105, 0.5);
 }
 
 .col h3 {
